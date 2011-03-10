@@ -34,6 +34,3 @@ run 'cp config/database.yml config/database.example.yml'
 
 # Create the DB
 rake("db:create")
-
-git :add => "."
-git :commit => "-a -m 'Setup Database'"

@@ -18,5 +18,3 @@ file '.gitignore', <<-CODE.gsub(/^ {2}/, '')
 CODE
 
 git :init
-git :add => "."
-git :commit => "-am 'Initial commit.'"

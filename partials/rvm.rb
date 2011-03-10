@@ -23,7 +23,7 @@ puts "                  #{@rvm}".yellow
 run "rvm rvmrc trust #{@app_path}"
 
 # Since the gemset is likely empty, manually install bundler so it can install the rest
-run "#{@rvm} gem install bundler"
+run "gem install bundler"
 
-# Install all other gems needed from Gemfile
-run "#{@rvm} exec bundle install"
+## Install all other gems needed from Gemfile
+run "bundle install"

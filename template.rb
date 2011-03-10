@@ -1,16 +1,12 @@
 # Check prerequisites
-[:colored, :rails, :bundler, :compass, :'html5-boilerplate', :haml].map(&:to_s).each do |prerequite|
+[:colored, :rails].map(&:to_s).each do |prerequite|
   unless Gem.available?(prerequite)
     run "gem install #{prerequite}"
-    Gem.refresh
-    Gem.activate(prerequite)
   end
 end
 
 require "colored"
 require "rails"
-require "bundler"
-require "haml"
 
 # Set directory for partials
 @partials = "#{File.dirname(__FILE__)}/partials"
@@ -19,27 +15,36 @@ puts "\n========================================================="
 puts " RAILS 3 TEMPLATE".yellow.bold
 puts "=========================================================\n"
 
-apply "#{@partials}/gemfile.rb"
-apply "#{@partials}/rvm.rb"           # Must be after gemfile since it runs bundler
+def apply_and_commit partial, msg = nil
+  apply "#{@partials}/#{partial}.rb"
+
+  msg ||= "Applied phase #{partial} .."
+
+  git :add => "."
+  git :commit => "-am '#{msg}'"
+end
+
 apply "#{@partials}/git.rb"           
-apply "#{@partials}/boilerplate.rb"
-apply "#{@partials}/grid.rb"          # Must be after boilerplate since it modifies SASS files
-apply "#{@partials}/stylesheets.rb"   # Must be after boilerplate since it modifies SASS files
-apply "#{@partials}/jquery.rb"
-apply "#{@partials}/layouts.rb"       # Must be after boilerplate since it modifies HAML files
-apply "#{@partials}/helpers.rb"
-apply "#{@partials}/appconfig.rb"
-apply "#{@partials}/rspec.rb"
-apply "#{@partials}/capistrano.rb"
-apply "#{@partials}/application.rb"
-apply "#{@partials}/friendly_id.rb"   # Must be after application.rb since it runs migrations
-apply "#{@partials}/demo.rb"
-apply "#{@partials}/cleanup.rb"
+apply_and_commit :cleanup, 'Initial commit of clean rails installation'
+apply_and_commit :gemfile
+apply_and_commit :rvm           # Must be after gemfile since it runs bundler
+apply_and_commit :boilerplate
+apply_and_commit :grid          # Must be after boilerplate since it modifies SASS files
+apply_and_commit :stylesheets   # Must be after boilerplate since it modifies SASS files
+apply_and_commit :jquery
+apply_and_commit :layouts       # Must be after boilerplate since it modifies HAML files
+apply_and_commit :helpers
+apply_and_commit :appconfig
+apply_and_commit :rspec
+apply_and_commit :capistrano
+apply_and_commit :application
+apply_and_commit :friendly_id   # Must be after application.rb since it runs migrations
+apply_and_commit :demo
 
 # extra's
-apply "#{@partials}/database.rb"
-apply "#{@partials}/devise.rb"
-apply "#{@partials}/simple_form.rb"
+apply_and_commit :database
+apply_and_commit :devise if ask("Setup Devise? (N/y)").upcase == 'Y'
+apply_and_commit :simple_form
 
 puts "\n========================================================="
 puts " INSTALLATION COMPLETE!".yellow.bold

@@ -6,13 +6,15 @@ remove_file 'Gemfile'
 file 'Gemfile', <<-RUBY.gsub(/^ {2}/, '')
 
   # Gems host
-  source 'http://rubygems.org'
+  source :gemcutter
+  #source "http://rubygems.com"
+  source "http://gems.github.com"
 
   # Rails (version >= 3.0.4 and < 3.1)
   gem 'rails', '~> 3.0.4'
 
   # Database
-  gem 'mysql2'
+  gem 'mysql'
 
   # Deployment manager
   gem 'capistrano'
@@ -22,7 +24,7 @@ file 'Gemfile', <<-RUBY.gsub(/^ {2}/, '')
   gem 'haml-rails'
 
   # HTML/CSS framework and boilerplate
-  gem 'compass'
+  gem 'compass', '>= 0.10.6'
   gem 'html5-boilerplate'
 
   # Simple form
@@ -30,6 +32,7 @@ file 'Gemfile', <<-RUBY.gsub(/^ {2}/, '')
 
   # Human readable URLs
   gem 'friendly_id', '~> 3.2'
+  gem 'babosa'
 
   # Validation of associations
   gem 'validates_existence', '~> 0.5'
@@ -74,7 +77,7 @@ file 'Gemfile', <<-RUBY.gsub(/^ {2}/, '')
     gem "rspec-rails"
     gem "launchy"
     gem "selenium-webdriver"
-    gem "autotest-rails"
+    #gem "autotest-rails"
     gem "shoulda"
     gem "machinist"
     gem "faker"
