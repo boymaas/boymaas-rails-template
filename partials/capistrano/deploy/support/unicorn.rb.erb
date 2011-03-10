@@ -1,0 +1,80 @@
+# unicorn_rails -c /data/github/current/config/unicorn.rb -E production -D
+
+rails_env = ENV['RAILS_ENV'] || 'production'
+
+# 16 workers and 1 master
+# TODO: make this configurable
+worker_processes <%= unicorn_worker_processes %>
+
+# Load complete rails framework into the master before forking workers
+# for super-fast worker spawn times
+preload_app true
+
+# Restart any workers that haven't responded in 30 seconds
+timeout 30
+
+# Listen on a Unix data socket
+listen '<%= shared_socket_for(unicorn_socket_name) %>', :backlog => 2048
+
+# Were do we want our pidfile
+pid '<%= shared_pid_for(:unicorn) %>'
+
+shared_bundler_gems_path = "<%= shared_path %>/bundle/ruby/1.8"
+
+# See http://unicorn.bogomips.org/Sandbox.html
+# Helps ensure the correct unicorn_rails is used when upgrading with USR2
+# if not specified this way, unicorn will not load new code
+Unicorn::HttpServer::START_CTX[0] = "#{shared_bundler_gems_path}/bin/unicorn_rails"
+
+##
+# REE
+
+# http://www.rubyenterpriseedition.com/faq.html#adapt_apps_for_cow
+if GC.respond_to?(:copy_on_write_friendly=)
+  GC.copy_on_write_friendly = true
+end
+
+
+before_fork do |server, worker|
+  ##
+  # When sent a USR2, Unicorn will suffix its pidfile with .oldbin and
+  # immediately start loading up a new version of itself (loaded with a new
+  # version of our app). When this new Unicorn is completely loaded
+  # it will begin spawning workers. The first worker spawned will check to
+  # see if an .oldbin pidfile exists. If so, this means we've just booted up
+  # a new Unicorn and need to tell the old one that it can now die. To do so
+  # we send it a QUIT.
+  #
+  # Using this method we get 0 downtime deploys.
+
+  old_pid = '<%= shared_pid_for :unicorn %>.oldbin'
+  if File.exists?(old_pid) && server.pid != old_pid
+    begin
+      Process.kill("QUIT", File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+      # someone else did our job for us
+    end
+  end
+end
+
+after_fork do |server, worker|
+  ##
+  # Unicorn master loads the app then forks off workers - because of the way
+  # Unix forking works, we need to make sure we aren't using any of the parent's
+  # sockets, e.g. db connection
+
+  ActiveRecord::Base.establish_connection
+end
+
+
+# Sets up path and gemfile path so unicorn USR2 deploy
+# works nicely with bundler
+before_exec do |server|
+  paths = (ENV["PATH"] || "").split(File::PATH_SEPARATOR)
+  paths.unshift "#{shared_bundler_gems_path}/bin"
+  ENV["PATH"] = paths.uniq.join(File::PATH_SEPARATOR)
+
+  ENV['GEM_HOME'] = ENV['GEM_PATH'] = shared_bundler_gems_path
+  ENV['BUNDLE_GEMFILE'] = "<%= current_path %>/Gemfile"
+end
+

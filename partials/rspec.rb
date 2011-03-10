@@ -1,16 +1,31 @@
 # Set up rspec
 
-puts "Setting up RSpec ... ".magenta
+############################################################
+# Generate RSpec and Cucumber
+#
 
-remove_dir 'test'
+# Setup RSpec and Cucumber
+generate "rspec:install"
+generate "cucumber:install", "--rspec --capybara"
 
-# generate 'rspec:install'
-run "#{@rvm} exec rails generate rspec:install"
+# Setup Machinist and Faker
+run 'mkdir -p spec/support'
+file 'touch spec/support/blueprints.rb', <<-END
+require 'machinist/active_record'
+require 'faker'
+require 'sham'
 
-generators = <<-RUBY
-  config.generators do |g|
-      g.test_framework   :rspec, :fixture => true, :views => false
-      g.integration_tool :rspec, :fixture => true, :views => true
-    end
-RUBY
-application generators
+Sham.email { Faker::Internet.email }
+Sham.hostname { Faker::Internet.domain_name }
+Sham.name { Faker::Name.name }
+Sham.text { Faker::Lorem.sentence }
+
+END
+
+# doing { something }.should change(Something, :count).by(1)
+file 'touch spec/support/custom.rb', <<-END
+alias :doing :lambda
+END
+
+git :add => "."
+git :commit => "-a -m 'Installed RSpec, Cucumber and Machinist'"

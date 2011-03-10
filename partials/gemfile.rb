@@ -25,6 +25,9 @@ file 'Gemfile', <<-RUBY.gsub(/^ {2}/, '')
   gem 'compass'
   gem 'html5-boilerplate'
 
+  # Simple form
+  gem "simple_form"
+
   # Human readable URLs
   gem 'friendly_id', '~> 3.2'
 
@@ -34,26 +37,26 @@ file 'Gemfile', <<-RUBY.gsub(/^ {2}/, '')
   # Better console formatting
   gem 'hirb'
 
-  # Optional gems below:
+  # Pagination of long lists
+  gem 'will_paginate', '~> 3.0.pre2'
 
   # User authentication (accounts)
-  # gem 'devise', '~> 1.1'
+  gem 'devise', '~> 1.1'
 
   # For Devise view generation
-  # gem 'hpricot'
-  # gem 'ruby_parser'
+  gem 'hpricot'
+  gem 'ruby_parser'
+
+  # File upload management
+  gem 'paperclip', '~> 2.3.8'
+  
+  # Optional gems below:
 
   # User authorization (permissions)
   # gem 'cancan', '~> 1.5.1'
 
   # To convert Markdown to HTML
   # gem 'kramdown', '~> 0.13'
-
-  # Pagination of long lists
-  # gem 'will_paginate', '~> 3.0.pre2'
-
-  # File upload management
-  # gem 'paperclip', '~> 2.3.8'
 
   # To deal with file uploads via Flash uploader
   # gem 'mime-types'
@@ -64,10 +67,21 @@ file 'Gemfile', <<-RUBY.gsub(/^ {2}/, '')
   # gem 'paper_trail'
 
   group :development, :test do
-    gem 'factory_girl_rails', '~> 1.0'
-    gem 'factory_girl_generator'
-    gem 'rspec-rails', '~> 2.5'
-    gem 'rcov'
-    gem 'random_data'
+    gem 'capybara'
+    gem "capybara-envjs"
+    gem 'database_cleaner'
+    gem "cucumber-rails"
+    gem "rspec-rails"
+    gem "launchy"
+    gem "selenium-webdriver"
+    gem "autotest-rails"
+    gem "shoulda"
+    gem "machinist"
+    gem "faker"
+    gem "ruby-debug"
   end
+    
 RUBY
+
+# Bundle will be installed in the rvm partial
+

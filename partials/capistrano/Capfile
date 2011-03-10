@@ -1,0 +1,37 @@
+# Define more than one stage in capistrano
+#set :stages, %w(staging production)
+#set :default_stage, "staging"
+#require 'capistrano/ext/multistage'
+
+# Application Specific Details
+set :application, "TODO: application name"
+set :domain, "TODO: domain to push to"
+
+# see deploy/*.rb for specific stages
+
+# version control
+set :scm, :git
+set :repository, "TODO: github repository" # "git@github.com:boymaas/.git"
+set :git_enable_submodules, 1
+set :deploy_via, :remote_cache
+
+# mics
+set :use_sudo, false
+
+set :stage, ( ENV['STAGE'] || 'staging' )
+
+# the capistrano rails recipe
+load "deploy"
+
+# overload some variables based on stage
+case stage.to_sym
+when :staging then
+  load "config/deploy/staging"
+when :production then
+  load "config/deploy/production"
+else
+  raise "Unknown stage '#{stage}'"
+end
+
+# our deploy pattern
+load "config/deploy"

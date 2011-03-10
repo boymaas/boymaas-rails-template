@@ -13,6 +13,8 @@ file '.gitignore', <<-CODE.gsub(/^ {2}/, '')
   db/*.sqlite3
   public/stylesheets/compiled/*
   public/system/*
+  # ignore vim swap files
+  .*.sw?
 CODE
 
 git :init
