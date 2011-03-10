@@ -37,9 +37,6 @@ file 'Gemfile', <<-RUBY.gsub(/^ {2}/, '')
   # Validation of associations
   gem 'validates_existence', '~> 0.5'
 
-  # Better console formatting
-  gem 'hirb'
-
   # Pagination of long lists
   gem 'will_paginate', '~> 3.0.pre2'
 
@@ -82,6 +79,12 @@ file 'Gemfile', <<-RUBY.gsub(/^ {2}/, '')
     gem "machinist"
     gem "faker"
     gem "ruby-debug"
+    # development tools
+    gem "rails-erd"
+    gem "wirble"
+    gem "awesome_print"
+    gem "hirb"
+    
   end
     
 RUBY

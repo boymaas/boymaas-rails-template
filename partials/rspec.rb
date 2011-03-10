@@ -27,6 +27,3 @@ END
 file 'spec/support/custom.rb', <<-END
 alias :doing :lambda
 END
-
-git :add => "."
-git :commit => "-a -m 'Installed RSpec, Cucumber and Machinist'"
