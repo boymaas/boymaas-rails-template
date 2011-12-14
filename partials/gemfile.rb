@@ -47,6 +47,11 @@ file 'Gemfile', <<-RUBY.gsub(/^ {2}/, '')
   gem 'hpricot'
   gem 'ruby_parser'
 
+  # For coffescript
+  gem 'json'
+  gem 'barista'
+  gem 'coffee-script-source'
+
   # File upload management
   gem 'paperclip', '~> 2.3.8'
   
