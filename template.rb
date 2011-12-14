@@ -29,17 +29,14 @@ apply_and_commit :cleanup, 'Initial commit of clean rails installation'
 apply_and_commit :gemfile
 apply_and_commit :rvm           # Must be after gemfile since it runs bundler
 apply_and_commit :boilerplate
-apply_and_commit :grid          # Must be after boilerplate since it modifies SASS files
-apply_and_commit :stylesheets   # Must be after boilerplate since it modifies SASS files
 apply_and_commit :jquery
-apply_and_commit :layouts       # Must be after boilerplate since it modifies HAML files
 apply_and_commit :helpers
 apply_and_commit :appconfig
 apply_and_commit :rspec
 apply_and_commit :capistrano
 apply_and_commit :application
 apply_and_commit :friendly_id   # Must be after application.rb since it runs migrations
-apply_and_commit :demo
+apply_and_commit :barista
 
 # extra's
 apply_and_commit :database

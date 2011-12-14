@@ -13,5 +13,5 @@ load "config/deploy/mysql"
 #load "config/deploy/psql"
 load "config/deploy/test"
 load "config/deploy/rake"
-load "config/deploy/background_fu"
+#load "config/deploy/background_fu"
 
