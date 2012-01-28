@@ -1,12 +1,8 @@
-# innovita-rails-template
+# Innovita-rails-template
 
-This is a [Rails Template](http://m.onkey.org/2008/12/4/rails-templates) to facilitate the
-quick set-up of new Rails applications.
+Highly adapted rails template for use in own projects
 
 ## Overview
-
-This is just a [Rails Template](http://m.onkey.org/2008/12/4/rails-templates) to facilitate the
-quick set-up of my Rails applications.  The main features are:
 
 * Sets up the [compass-html5-boilerplate](https://github.com/sporkd/compass-html5-boilerplate) gem by Peter Gumeson (sporkd). This provides:
  * All templates, stylesheets, and views use [haml](http://haml-lang.com/) and [sass](http://sass-lang.com/).
@@ -43,15 +39,6 @@ Create a new Rails application as normal, specifying the path to the template sc
 
 Start the rails server with `rails s` and browse
 to `http://localhost:3000/demos/text` and `http://localhost:3000/demos/grid`.
-
-## Documentation
-
-This section will explain how to use each of the features.
-
-## To Do
-
-* Add capistrano deploy.rb file.
-* Optionally (based on user interrogation) set up features like devise, paperclip, etc.
 
 ## See Also
 
