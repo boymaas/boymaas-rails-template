@@ -8,7 +8,7 @@ namespace :deploy do
   put <<-SHELL_SCRIPT, 'install_rvm', :mode => '750'
 #!/bin/bash 
 if ! [[ -d .rvm ]]; then
-  bash < <( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
+  bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
   echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"' >> .profile
   echo 'export RAILS_ENV="#{stage}"' >> .profile
   source "$HOME/.rvm/scripts/rvm"

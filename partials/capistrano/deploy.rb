@@ -12,6 +12,7 @@ load "config/deploy/nginx"
 load "config/deploy/mysql"
 #load "config/deploy/psql"
 load "config/deploy/test"
-load "config/deploy/rake"
+# rake conflicts with deploy:migrations .. the internal rake
+#load "config/deploy/rake"
 #load "config/deploy/background_fu"
 

@@ -19,4 +19,6 @@ file 'config/compass.rb', <<-RUBY.gsub(/^ {2}/, '')
   end
 RUBY
 
+# this will install boilerplate layout in app/views ... need to do some modifications though
 run "compass init rails -r html5-boilerplate -u html5-boilerplate -x sass -c config/compass.rb --force"
+
